@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ec">
+  <title>Một chút vui cho bạn</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+
+    :root {
+      color-scheme: light;
+      --paper: #f8f5ec;
+      --ink: #203d38;
+      --muted: #66746b;
+      --coral: #df684f;
+      --yellow: #f3c95b;
+      --green: #b9d8a7;
+      --blue: #b8d9e2;
+      --white: #fffdf7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100svh;
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: radial-gradient(#66807120 0.8px, transparent 0.8px);
+      background-size: 18px 18px;
+      font-family: 'DM Sans', 'Trebuchet MS', sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .page {
+      position: relative;
+      display: grid;
+      min-height: 100svh;
+      place-items: center;
+      padding: 28px 20px;
+      isolation: isolate;
+    }
+
+    .shape {
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      border: 1px solid #203d3820;
+    }
+
+    .shape-sun {
+      top: 8%;
+      right: 10%;
+      width: 88px;
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 0 12px #f3c95b30, 0 0 0 25px #f3c95b18;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .shape-leaf {
+      bottom: 10%;
+      left: 9%;
+      width: 104px;
+      height: 58px;
+      border-radius: 100% 0 100% 0;
+      background: var(--green);
+      transform: rotate(-25deg);
+    }
+
+    .shape-ring {
+      top: 22%;
+      left: 13%;
+      width: 34px;
+      aspect-ratio: 1;
+      border: 2px solid var(--coral);
+      border-radius: 50%;
+    }
+
+    .shape-spark {
+      right: 17%;
+      bottom: 18%;
+      color: var(--coral);
+      font-size: 42px;
+      transform: rotate(12deg);
+    }
+
+    .content {
+      width: min(100%, 620px);
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--coral);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1, h2 {
+      margin-bottom: 18px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 1.08;
+    }
+
+    h1 { font-size: clamp(52px, 12vw, 92px); }
+    h2 { font-size: clamp(42px, 9vw, 68px); }
+
+    .intro-copy, .message-copy {
+      max-width: 440px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .tap-area {
+      display: grid;
+      justify-items: center;
+      gap: 22px;
+      width: 100%;
+      padding: 28px 12px;
+      color: inherit;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .tap-area:focus-visible, .primary-button:focus-visible, .again-button:focus-visible {
+      outline: 3px solid var(--coral);
+      outline-offset: 6px;
+      border-radius: 8px;
+    }
+
+    .welcome-sticker {
+      display: grid;
+      width: 138px;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 44% 56% 51% 49% / 52% 44% 56% 48%;
+      background: var(--yellow);
+      box-shadow: 7px 8px 0 var(--ink);
+      font-size: 67px;
+      animation: wobble 4s ease-in-out infinite;
+    }
+
+    .tap-hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .second-screen { animation: arrive 500ms both; }
+
+    .mini-flower {
+      margin: 0 auto 12px;
+      font-size: 45px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .primary-button, .again-button {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+      padding: 0 28px;
+      color: var(--white);
+      background: var(--coral);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      box-shadow: 4px 5px 0 var(--ink);
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .primary-button:hover, .again-button:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 3px 0 var(--ink);
+    }
+
+    .message-screen { animation: arrive 450ms both; }
+
+    .message-art {
+      display: grid;
+      width: 156px;
+      aspect-ratio: 1;
+      place-items: center;
+      margin: 0 auto 30px;
+      border: 2px solid var(--ink);
+      border-radius: 48% 52% 44% 56% / 54% 43% 57% 46%;
+      background: var(--blue);
+      box-shadow: 6px 7px 0 var(--ink);
+      font-size: 76px;
+      animation: pop 450ms cubic-bezier(.2, .9, .25, 1.2) both;
+    }
+
+    .message-screen h2 {
+      max-width: 600px;
+      margin-right: auto;
+      margin-left: auto;
+      font-size: clamp(34px, 7vw, 56px);
+    }
+
+    .message-copy { min-height: 58px; }
+
+    .again-button {
+      margin-top: 24px;
+      color: var(--ink);
+      background: var(--yellow);
+    }
+
+    .counter {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .screen[hidden] { display: none; }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.7) rotate(-10deg); }
+      to { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    @media (max-width: 520px) {
+      .shape-sun { top: 7%; right: 7%; width: 56px; }
+      .shape-leaf { bottom: 7%; left: 4%; width: 68px; height: 40px; }
+      .shape-ring { top: 17%; left: 6%; width: 22px; }
+      .shape-spark { right: 7%; bottom: 12%; font-size: 30px; }
+      .welcome-sticker { width: 112px; font-size: 55px; }
+      .message-art { width: 128px; margin-bottom: 24px; font-size: 62px; }
+      .intro-copy, .message-copy { font-size: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shape shape-sun" aria-hidden="true"></div>
+    <div class="shape shape-leaf" aria-hidden="true"></div>
+    <div class="shape shape-ring" aria-hidden="true"></div>
+    <div class="shape shape-spark" aria-hidden="true">✳</div>
+
+    <section class="content screen" id="welcome-screen" aria-labelledby="welcome-title">
+      <button class="tap-area" id="welcome-next" type="button" aria-label="Chạm để tiếp tục">
+        <span class="eyebrow">Một điều nho nhỏ dành cho bạn</span>
+        <span class="welcome-sticker" aria-hidden="true">☀️</span>
+        <span>
+          <span class="eyebrow" style="display:block; margin:0 0 12px;">Xin chào!</span>
+          <span class="tap-hint">Chạm vào bất kỳ đâu trên màn hình để tiếp tục ↗</span>
+        </span>
+      </button>
+    </section>
+
+    <section class="content screen second-screen" id="hello-screen" aria-labelledby="hello-title" hidden>
+      <div class="mini-flower" aria-hidden="true">🌼</div>
+      <p class="eyebrow">Bạn đến đúng lúc rồi đó</p>
+      <h1 id="hello-title">Chào bạn!</h1>
+      <p class="intro-copy">Ở đây có một chiếc túi nhỏ đựng toàn lời chúc vui vẻ. Không cần làm gì to tát đâu, mình chỉ muốn gửi bạn một chút dễ thương thôi!</p>
+      <button class="primary-button" id="start-button" type="button">Bắt đầu <span aria-hidden="true">✦</span></button>
+    </section>
+
+    <section class="content screen message-screen" id="message-screen" aria-live="polite" aria-atomic="true" hidden>
+      <div class="message-art" id="message-icon" aria-hidden="true">😊</div>
+      <p class="eyebrow">Một chiếc lời chúc gửi bạn</p>
+      <h2 id="message-title"></h2>
+      <p class="message-copy" id="message-copy"></p>
+      <button class="again-button" id="another-button" type="button"><span aria-hidden="true">↻</span> Cho mình lời khác</button>
+      <p class="counter" id="message-counter"></p>
+    </section>
+  </main>
+
+  <script>
+    const messages = [
+      { icon: '😊', title: 'Chúc bạn một ngày thật tươi!', copy: 'Mong hôm nay mọi chuyện đều nhẹ nhàng, và bạn gặp thật nhiều điều khiến mình mỉm cười.' },
+      { icon: '🌷', title: 'Bạn xứng đáng được dịu dàng.', copy: 'Nhớ đối xử với bản thân bằng sự tử tế mà bạn vẫn dành cho mọi người nhé.' },
+      { icon: '☀️', title: 'Bạn là nắng của chính mình.', copy: 'Dù hôm nay trời thế nào, mong trong lòng bạn vẫn có một khoảng trời trong veo.' },
+      { icon: '🍀', title: 'May mắn đang trên đường tới!', copy: 'Có thể là một tin vui, một món ngon, hay đơn giản là xe buýt đến đúng lúc. Chúc bạn gặp điều lành!' },
+      { icon: '🎈', title: 'Hôm nay cứ vui một chút nhé!', copy: 'Không cần lý do thật lớn đâu. Một bài hát hay cũng đủ làm ngày đẹp hơn rồi.' },
+      { icon: '🐣', title: 'Bạn đang làm tốt lắm rồi.', copy: 'Cứ đi từng bước nhỏ thôi. Chậm một chút không có nghĩa là bạn đang đứng yên.' },
+      { icon: '🌈', title: 'Sau mưa thường có cầu vồng.', copy: 'Nếu hôm nay chưa như ý, mong ngày mai sẽ mang đến cho bạn một sắc màu mới.' },
+      { icon: '🍓', title: 'Bạn ngọt ngào theo cách riêng.', copy: 'Đừng cố trở thành ai khác nhé. Phiên bản là chính bạn đã đáng yêu lắm rồi.' },
+      { icon: '🪴', title: 'Mong bạn lớn lên thật vui.', copy: 'Chẳng cây nào nở hoa trong một đêm. Hãy cứ chăm sóc mình, rồi điều đẹp đẽ sẽ đến.' },
+      { icon: '🧸', title: 'Gửi bạn một cái ôm mềm xốp.', copy: 'Nếu chưa ai nói hôm nay: bạn quan trọng, và sự có mặt của bạn làm thế giới tốt hơn.' },
+      { icon: '🍰', title: 'Bạn có quyền tự thưởng!', copy: 'Hoàn thành một việc nhỏ cũng đáng được ăn mừng. Miếng bánh ngon xin phép được đề cử.' },
+      { icon: '🐝', title: 'Chăm chỉ vừa đủ là siêu rồi.', copy: 'Bạn không cần lúc nào cũng bận rộn để chứng minh giá trị của mình đâu nhé.' },
+      { icon: '🌙', title: 'Chúc bạn ngủ ngon khi đến tối.', copy: 'Mong mọi lo lắng chịu nghỉ phép một hôm để bạn được thảnh thơi và mơ những giấc mơ đẹp.' },
+      { icon: '🦋', title: 'Bạn có thể bắt đầu lại.', copy: 'Một khởi đầu mới không cần đợi đến thứ Hai. Ngay lúc này cũng là một thời điểm tuyệt vời.' },
+      { icon: '☕', title: 'Nhớ nghỉ một chút nha.', copy: 'Hít một hơi thật sâu, thả lỏng vai. Bạn không phải giải quyết mọi thứ trong một lần.' },
+      { icon: '🌻', title: 'Mong bạn luôn hướng về điều sáng.', copy: 'Ngay cả một ngày bình thường cũng có thể nở ra điều hay ho. Cứ để ý xem nhé!' },
+      { icon: '🐬', title: 'Cứ bơi theo nhịp của bạn.', copy: 'Không cần so tốc độ với ai cả. Đại dương đủ rộng để mỗi người có một hành trình riêng.' },
+      { icon: '🎨', title: 'Ngày hôm nay là trang giấy mới.', copy: 'Tô lên đó một điều bạn thích, dù chỉ là màu của món ăn trưa ngon lành.' },
+      { icon: '🧁', title: 'Bạn làm cuộc sống thêm xinh.', copy: 'Sự tử tế nhỏ xíu của bạn có thể là điều tuyệt nhất trong ngày của một ai đó.' },
+      { icon: '🚀', title: 'Bạn có thể làm được mà!', copy: 'Việc lớn chia thành việc nhỏ, việc nhỏ chia thành bước đầu tiên. Bước đầu tiên thì bạn làm được!' },
+      { icon: '🫧', title: 'Thở ra những điều nặng lòng.', copy: 'Hít vào bình yên, thở ra áp lực. Làm lại thêm lần nữa nếu cần, không ai tính điểm đâu.' },
+      { icon: '🦊', title: 'Bạn thông minh và lanh lợi.', copy: 'Tin vào cách mình nghĩ nhé. Đôi khi đáp án hay nhất đến từ việc thử một con đường khác.' },
+      { icon: '🍉', title: 'Chúc bạn gặp toàn chuyện mát lành.', copy: 'Như miếng dưa hấu ngày hè: ngọt, mát, và khiến người ta vui ngay từ miếng đầu tiên.' },
+      { icon: '🎵', title: 'Mong ngày bạn có nhạc hay.', copy: 'Chúc bạn tình cờ nghe đúng bài hát mình thích vào đúng khoảnh khắc cần nó nhất.' },
+      { icon: '🕊️', title: 'Chúc lòng bạn được bình yên.', copy: 'Bạn không cần phải có tất cả câu trả lời ngay hôm nay. Cứ để mọi thứ từ từ sáng tỏ.' },
+      { icon: '🥑', title: 'Bạn đang trưởng thành rất tốt.', copy: 'Có thể bạn chưa nhận ra, nhưng nhìn lại một chút sẽ thấy mình đã đi được xa đến nhường nào.' },
+      { icon: '🛼', title: 'Cứ vui mà lăn bánh thôi!', copy: 'Lỡ loạng choạng cũng không sao. Đứng dậy phủi bụi và đi tiếp, thế là ngầu lắm rồi.' },
+      { icon: '💌', title: 'Có người đang mong bạn vui.', copy: 'Và người đó hôm nay là mình. Chúc bạn nhận được một điều dễ thương bất ngờ!' },
+      { icon: '🥨', title: 'Mong hôm nay không vòng vo.', copy: 'Việc khó hóa dễ, đường xa hóa gần, còn đồ ăn thì mong luôn có phần ngon nhất dành cho bạn.' },
+      { icon: '🐢', title: 'Đi chậm vẫn là đang đi.', copy: 'Bạn được quyền nghỉ chân, uống nước rồi tiếp tục. Hành trình của bạn không có đồng hồ bấm giờ.' },
+      { icon: '🧡', title: 'Bạn được yêu quý nhiều lắm.', copy: 'Đừng quên rằng chỉ cần là bạn thôi, bạn đã đủ để được trân trọng rồi.' },
+      { icon: '📚', title: 'Mong bạn khám phá điều mới.', copy: 'Một ý tưởng hay, một câu chuyện thú vị hay một quán ăn ngon đang đợi bạn đó!' },
+      { icon: '🌊', title: 'Mong tâm trí bạn thật êm.', copy: 'Hãy để những chuyện ngoài tầm tay trôi qua như sóng. Bạn giữ lại điều gì khiến mình bình yên nhé.' },
+      { icon: '🐈', title: 'Hôm nay hãy mềm mại với mình.', copy: 'Nếu một chú mèo có thể ngủ trưa không áy náy, bạn cũng có thể nghỉ ngơi mà không thấy có lỗi.' },
+      { icon: '⭐', title: 'Bạn là một ngôi sao nhỏ.', copy: 'Không cần phải sáng hơn ai. Chỉ cần tỏa sáng theo cách khiến bạn thấy vui.' },
+      { icon: '🥕', title: 'Chúc bạn đủ năng lượng!', copy: 'Mong pin tinh thần hôm nay luôn xanh, công việc trôi chảy và bữa ăn có thật nhiều món ngon.' },
+      { icon: '🪁', title: 'Thả lỏng một chút nha.', copy: 'Có những điều tốt đẹp chỉ đến khi mình thôi nắm chặt. Hãy để lòng mình đón một làn gió mới.' },
+      { icon: '🐳', title: 'Bạn rộng lớn hơn nỗi lo.', copy: 'Một chuyện không vui không thể kể hết câu chuyện của bạn. Phần tiếp theo vẫn do bạn viết.' },
+      { icon: '🍋', title: 'Chuyện chua rồi cũng thành vui.', copy: 'Biết đâu điều hơi rắc rối hôm nay lại trở thành chuyện hài bạn kể vào một ngày khác.' },
+      { icon: '🎁', title: 'Hôm nay có quà cho bạn: lời chúc!', copy: 'Chúc bạn nhận được điều mình cần, gặp người mình quý và tìm thấy niềm vui trong những điều giản dị.' },
+      { icon: '🌿', title: 'Bạn không cần vội nở hoa.', copy: 'Chỉ cần tiếp tục chăm chút cho mình. Những ngày xanh tươi sẽ đến theo cách của riêng chúng.' },
+      { icon: '🐧', title: 'Bạn dễ thương hơn bạn nghĩ.', copy: 'Đây là thông báo chính thức từ hội đồng chim cánh cụt tưởng tượng. Không khiếu nại nhé!' },
+      { icon: '🧋', title: 'Chúc bạn có món ngon đúng gu.', copy: 'Mong hôm nay trân châu dai vừa đủ, đá vừa đủ, và niềm vui thì nhiều hơn cả topping.' },
+      { icon: '💐', title: 'Một bó hoa vô hình dành tặng bạn.', copy: 'Cảm ơn bạn vì đã có mặt trên đời và làm ngày hôm nay của ai đó bớt bình thường.' },
+      { icon: '🦄', title: 'Điều kỳ diệu cũng thích ghé bạn.', copy: 'Hãy để một chút bất ngờ tìm đường tới. Biết đâu hôm nay chính là ngày đó!' },
+      { icon: '🧭', title: 'Bạn sẽ tìm được lối đi.', copy: 'Lạc hướng một chút không có nghĩa là thất bại. Đôi khi đó là cách mình tìm thấy nơi thú vị hơn.' },
+      { icon: '🪄', title: 'Biến một chút thành thật nhiều vui.', copy: 'Chỉ cần một nụ cười, một lời hỏi thăm, hay một bài hát đúng gu. Phép màu đôi khi đơn giản vậy thôi.' },
+      { icon: '🥳', title: 'Chúc mừng bạn đã đến hôm nay!', copy: 'Bạn đã vượt qua mọi ngày trước đó. Riêng thành tích này thôi cũng đáng nhận một tràng pháo tay rồi!' },
+      { icon: '🌺', title: 'Bạn mang màu sắc riêng.', copy: 'Thế giới không cần thêm một bản sao. Cứ giữ nét riêng rực rỡ của bạn nhé.' },
+      { icon: '🧇', title: 'Mong ngày bạn giòn tan niềm vui.', copy: 'Việc cần làm thì vừa sức, lúc nghỉ thì thật ngon, và mọi chuyện đều thơm phức như bánh mới nướng.' },
+      { icon: '💫', title: 'Một điều tốt đẹp đang chờ bạn.', copy: 'Có thể nhỏ thôi, nhưng đủ làm mắt bạn sáng lên. Chúc bạn nhận ra nó khi nó xuất hiện.' }
+    ];
+
+    const welcomeScreen = document.querySelector('#welcome-screen');
+    const helloScreen = document.querySelector('#hello-screen');
+    const messageScreen = document.querySelector('#message-screen');
+    const messageIcon = document.querySelector('#message-icon');
+    const messageTitle = document.querySelector('#message-title');
+    const messageCopy = document.querySelector('#message-copy');
+    const messageCounter = document.querySelector('#message-counter');
+    let lastMessageIndex = -1;
+    let messagesShown = 0;
+
+    function showMessage() {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * messages.length);
+      } while (messages.length > 1 && nextIndex === lastMessageIndex);
+
+      lastMessageIndex = nextIndex;
+      messagesShown += 1;
+      const message = messages[nextIndex];
+      messageIcon.textContent = message.icon;
+      messageTitle.textContent = message.title;
+      messageCopy.textContent = message.copy;
+      messageCounter.textContent = `Lời chúc thứ ${messagesShown} dành cho bạn`;
+      messageIcon.style.animation = 'none';
+      requestAnimationFrame(() => { messageIcon.style.animation = ''; });
+    }
+
+    document.querySelector('.page').addEventListener('click', () => {
+      if (welcomeScreen.hidden) return;
+      welcomeScreen.hidden = true;
+      helloScreen.hidden = false;
+      document.querySelector('#start-button').focus();
+    });
+
+    document.querySelector('#start-button').addEventListener('click', () => {
+      helloScreen.hidden = true;
+      messageScreen.hidden = false;
+      showMessage();
+      document.querySelector('#another-button').focus();
+    });
+
+    document.querySelector('#another-button').addEventListener('click', showMessage);
+  </script>
+</body>
+</html>
